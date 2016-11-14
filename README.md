@@ -1,4 +1,6 @@
 # BuzzWorks - Software for controlling Arduino based RGB I²C Game Buzzers
+![BuzzWorks](/Screenshot.png?raw=true "Main Window")
+
 This Java Application is meant to run on a touchscreen to give the "Gamemaster" easy control over the participating teams.
 It controls the connected Hardware Buzzers and manages Teams (Their Points, Assigned Name, Teamcolor).
 
