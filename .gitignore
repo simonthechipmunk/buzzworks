@@ -1,0 +1,11 @@
+# NetBeans specific #
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+test/
+nbactions.xml
+nb-configuration.xml
+build.xml
+manifest.mf
