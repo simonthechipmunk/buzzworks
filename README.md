@@ -40,7 +40,7 @@ Adafruit NeoPixel (WS2812b) [https://github.com/adafruit/Adafruit_NeoPixel]
 
 TinyWire I²C for ATTiny [https://github.com/rambo/TinyWire/tree/master/TinyWireS]
 
-ATTiny Hardware Support for [Arduino IDE http://highlowtech.org/?p=1695]
+ATTiny Hardware Support for Arduino IDE [http://highlowtech.org/?p=1695]
 
 
 **Java**
