@@ -67,6 +67,7 @@ RxTx (BuiltIn)
 
 ## Known issues
 *(bug) Terminating the Application leaves a stale lock file on the serial port.
+
 *(info) This is in no way professional. Expect the unexpected. Resizing Windows may cause Eye-Cancer. I'm a java-swing noob.
 
 
