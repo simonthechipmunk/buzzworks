@@ -5,10 +5,10 @@
  */
 package buzzworks;
 
-import java.awt.Toolkit;
-import java.io.OutputStream;
-import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -21,30 +21,50 @@ public class mainWindow extends javax.swing.JFrame {
     private BuzzWatch buzzwatch;
     private ArrayList<Integer> teamlist;
     private ArrayList<TeamPanel> teampanels;
+    private TeamWindowPoints teamWindowPoints1;
+    private ArrayList<Boolean> checkboxes;
 
     /**
      * Creates new form mainWindow
      */
-    public mainWindow(Serial serial, ArrayList<Integer> teamlist) {
+    public mainWindow(Serial serial, ArrayList<Integer> teamlist, ArrayList checkboxes) {
         this.teampanels = new ArrayList();
         this.serial = serial;
         this.teamlist = teamlist;
+        this.checkboxes = checkboxes;
+        
+        //set window title
+        this.setTitle("Buzzworks - Controls");
+        
+        //init window components
+        initComponents();
+        jLabel_TeamBuzzed.setVisible(false);
+        
+        //create teamtabs
+        for (int i = 0; i < teamlist.size(); i++) {
+            teampanels.add(new TeamPanel(teamlist.get(i), this.serial, this.jTabbedPane4));
+            jTabbedPane4.addTab(teampanels.get(i).team.getName(), teampanels.get(i));
+            teampanels.get(i).team.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e){
+                        //action
+                        updatePointList();
+                    }
+            });
+        }
+        
+        //create external points window
+        teamWindowPoints1 = new TeamWindowPoints(teampanels);
+        teamWindowPoints1.setVisible(this.checkboxes.get(0));
+        
+        //initialize the pointslist
+        updatePointList();
         
         //start serial buzz watcher
         buzzwatch = new BuzzWatch(this);
         new Thread(buzzwatch).start();
         
-        initComponents();
-        jLabel_TeamBuzzed.setVisible(false);
-        
         //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/home/simon/.NetBeansProjects/BuzzWorks/Icons/icon.png")));
-
-        this.setTitle("Buzzworks - Controls");
-        
-        for (int i = 0; i < teamlist.size(); i++) {
-            teampanels.add(new TeamPanel(teamlist.get(i).intValue(), this.serial, this.jTabbedPane4));
-            jTabbedPane4.addTab(teampanels.get(i).team.getName(), teampanels.get(i));
-        }
         
         //reset buzzers
         serial.Send("all:mode.0\n");
@@ -62,6 +82,7 @@ public class mainWindow extends javax.swing.JFrame {
 
         jTabbedPane4 = new javax.swing.JTabbedPane();
         teamPanelAll1 = new buzzworks.TeamPanelAll(serial, teampanels);
+        teamPanelPoints1 = new buzzworks.TeamPanelPoints(teampanels);
         jPanel3 = new javax.swing.JPanel();
         jButton_ResetAll = new javax.swing.JButton();
         jLabel_TeamBuzzed = new javax.swing.JLabel();
@@ -70,6 +91,7 @@ public class mainWindow extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jTabbedPane4.addTab("All Teams", teamPanelAll1);
+        jTabbedPane4.addTab("Points", teamPanelPoints1);
 
         jButton_ResetAll.setText("Reset Buzzers");
         jButton_ResetAll.addActionListener(new java.awt.event.ActionListener() {
@@ -84,17 +106,17 @@ public class mainWindow extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_ResetAll, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addComponent(jButton_ResetAll, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton_ResetAll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton_ResetAll, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -109,7 +131,8 @@ public class mainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane4))
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 590, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -121,8 +144,32 @@ public class mainWindow extends javax.swing.JFrame {
         
         //reset global tag
         jLabel_TeamBuzzed.setVisible(false);
+        teamWindowPoints1.unselectTeam();
     }//GEN-LAST:event_jButton_ResetAllActionPerformed
     
+    //update lists for displaying points
+    private void updatePointList(){
+        teampanels.sort(TeampanelPointsComparator);
+        teamPanelPoints1.updateList();
+        teamWindowPoints1.updateList();
+    }
+    
+    private Comparator<TeamPanel> TeampanelPointsComparator
+                          = new Comparator<TeamPanel>() {
+
+            @Override
+	    public int compare(TeamPanel t1, TeamPanel t2){
+              
+	      //ascending order
+	      //return new Integer(t1.team.getPoints()).compareTo(t2.team.getPoints());
+	      
+	      //descending order
+	      return new Integer(t2.team.getPoints()).compareTo(t1.team.getPoints());
+	    }
+
+	};
+    
+    //handle "buzzer pressed" event
     private void buzzhandler(String address) {
 
         //activate teamtab
@@ -131,12 +178,17 @@ public class mainWindow extends javax.swing.JFrame {
             if (teampanels.get(e).team.getAddress() == Integer.parseInt(address)) {
                 for (int i = 0; i < jTabbedPane4.getTabCount(); i++) {
                     if (jTabbedPane4.getTitleAt(i).equals(teampanels.get(e).team.getName())) {
+                        
+                        //select teamtab
                         jTabbedPane4.setSelectedIndex(i);
                         
                         //set global tag
                         jLabel_TeamBuzzed.setText("→ " + teampanels.get(e).team.getName());
                         jLabel_TeamBuzzed.setForeground(teampanels.get(e).team.getColor());
                         jLabel_TeamBuzzed.setVisible(true);
+                        
+                        //select team on external points list
+                        teamWindowPoints1.selectTeam(Integer.parseInt(address));
                         break;
                     }
                 }
@@ -145,6 +197,7 @@ public class mainWindow extends javax.swing.JFrame {
         }
     }
     
+    //thread for listening on serial for "buzzer pressed"
     private class BuzzWatch implements Runnable {
         
         mainWindow parent;
@@ -183,5 +236,6 @@ public class mainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private buzzworks.TeamPanelAll teamPanelAll1;
+    private buzzworks.TeamPanelPoints teamPanelPoints1;
     // End of variables declaration//GEN-END:variables
 }

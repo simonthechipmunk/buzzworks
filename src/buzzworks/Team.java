@@ -6,15 +6,18 @@
 package buzzworks;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Basic Team Class
  * @author Simon Junga (simonthechipmunk)
  */
-public class Team {
+public class Team implements ActionListener{
     
     private static int id = 1;
-
+    private ArrayList<ActionListener> listeners;
 
     private int address;
     private int teamid;
@@ -25,6 +28,7 @@ public class Team {
 
     public Team() {
         teamid = id++;
+        listeners = new ArrayList();
         
         address = -1;
         points = 0;
@@ -38,7 +42,10 @@ public class Team {
      * @param points points to add (positive only)
      */
     public void addPoints(int points){
-        if(points > 0)this.points += points;
+        if(points > 0){
+            this.points += points;
+            actionPerformed(new ActionEvent(this, id, "addPoints"));
+        }
     }
     
     /**
@@ -49,6 +56,7 @@ public class Team {
         if(points > 0 && this.points > 0){
             this.points -= points;
             if(this.points < 0) this.points = 0;
+            actionPerformed(new ActionEvent(this, id, "subPoints"));
         }
         
     }
@@ -86,6 +94,7 @@ public class Team {
      */
     public void setPoints(int points) {
         this.points = points;
+        actionPerformed(new ActionEvent(this, id, "setPoints"));
     }
 
     /**
@@ -100,6 +109,7 @@ public class Team {
      */
     public void setName(String name) {
         this.name = name;
+        actionPerformed(new ActionEvent(this, id, "setName"));
     }
 
     /**
@@ -114,6 +124,7 @@ public class Team {
      */
     public void setColor(Color color) {
         this.color = color;
+        actionPerformed(new ActionEvent(this, id, "setColor"));
     }
 
     /**
@@ -131,6 +142,24 @@ public class Team {
     }
     
     
+    
+    //action listeners for event "teamChanged"
+    public void addActionListener(ActionListener listener){
+        listeners.add(listener);
+    }
+    
+    public void removeActionListener(ActionListener listener){
+        listeners.remove(listener);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        for(int i=0; i<listeners.size(); i++){
+            listeners.get(i).actionPerformed(e);
+        }
+    }
+
     
     
 }

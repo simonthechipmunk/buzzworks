@@ -5,7 +5,6 @@
  */
 package buzzworks;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
@@ -18,16 +17,17 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     Serial serial;
     ArrayList<Integer> teamlist;
+    ArrayList<Boolean> checkboxes;
 
     /**
      * Creates new form DialogSerialSelect
      */
-    public DialogSerialSelect(Serial serial, ArrayList<Integer> teamlist) {
+    public DialogSerialSelect(Serial serial, ArrayList<Integer> teamlist, ArrayList checkboxes) {
         this.serial = serial;
         this.teamlist = teamlist;
+        this.checkboxes = checkboxes;
 
         initComponents();
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         pack();
 
         //init infobar
@@ -73,6 +73,9 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         jComboBox_Ports = new javax.swing.JComboBox<>();
         jButton_OK = new javax.swing.JButton();
         jLabel_Title = new javax.swing.JLabel();
+        jCheckBox_PointsWindow = new javax.swing.JCheckBox();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel_Progress.setText("Creating Teams...");
 
@@ -88,6 +91,13 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         jLabel_Title.setFont(new java.awt.Font("Cantarell", 0, 48)); // NOI18N
         jLabel_Title.setText("Select Serial Port");
 
+        jCheckBox_PointsWindow.setText("Display Points Window");
+        jCheckBox_PointsWindow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_PointsWindowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,15 +106,20 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 .addComponent(jLabel_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel_Progress, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jProgressBar_Create, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jComboBox_Ports, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_Progress, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jProgressBar_Create, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jComboBox_Ports, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jCheckBox_PointsWindow)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,7 +130,9 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox_Ports, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_OK))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox_PointsWindow)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jProgressBar_Create, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_Progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -126,6 +143,10 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         // TODO add your handling code here:        
         new Thread(new serialparser()).start();
     }//GEN-LAST:event_jButton_OKActionPerformed
+
+    private void jCheckBox_PointsWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_PointsWindowActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_PointsWindowActionPerformed
 
     private class serialparser implements Runnable {
 
@@ -159,6 +180,8 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                         String inStr = scanner.nextLine();
                         
                         if (inStr.indexOf(':') != -1) {
+                            
+                            //add teams
                             if (inStr.substring(inStr.indexOf(':') + 1).equals("is.online")) {
                                 teamlist.add(new Integer(inStr.substring(0, inStr.indexOf(':'))));
                                 jProgressBar_Create.setValue(jProgressBar_Create.getValue() + 10);
@@ -169,12 +192,12 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                                 jProgressBar_Create.setValue(100);
                                 break;
                             }
+                            
                         }
 
                         Thread.sleep(200);
                     }
                     
-                    Thread.sleep(200);
                 } catch (Exception e) {
 
                 }
@@ -183,6 +206,9 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 
+            //return checkbox state
+            checkboxes.add(jCheckBox_PointsWindow.isSelected());
+            
             //close window and switch to mainview
             dispose();
         }
@@ -192,6 +218,7 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_OK;
+    private javax.swing.JCheckBox jCheckBox_PointsWindow;
     private javax.swing.JComboBox<String> jComboBox_Ports;
     private javax.swing.JLabel jLabel_Progress;
     private javax.swing.JLabel jLabel_Title;

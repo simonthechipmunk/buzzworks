@@ -8,10 +8,8 @@ package buzzworks;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Vector;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -27,6 +25,8 @@ public class BuzzWorks {
     private static mainWindow mainwindow;
     private static Serial serial;
     private static ArrayList<Integer> teamlist;
+    
+    private static ArrayList<Boolean> checkboxes;
 
     /**
      * @param args the command line arguments
@@ -70,14 +70,15 @@ public class BuzzWorks {
         
         try
         {
-            //init teamlist
+            //init
             teamlist = new ArrayList();
+            checkboxes = new ArrayList();
             
             //start serial connection
             serial = new Serial();
             
             //user serial selection
-            dialogserial = new DialogSerialSelect(serial, teamlist);
+            dialogserial = new DialogSerialSelect(serial, teamlist, checkboxes);
             dialogserial.setVisible(true);
             
             //start mainview when finished with serial connection
@@ -85,7 +86,7 @@ public class BuzzWorks {
                 public void windowClosed(WindowEvent e) {
                     try {
                         //start main window
-                        mainwindow = new mainWindow(serial, teamlist);
+                        mainwindow = new mainWindow(serial, teamlist, checkboxes);
                         mainwindow.setVisible(true);
                         
                         //close serial on exit. well we at least try.... shit doesn't work
