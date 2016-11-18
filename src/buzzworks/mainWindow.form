@@ -108,6 +108,9 @@
               <Font name="Cantarell" size="80" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel_TeamBuzzedMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

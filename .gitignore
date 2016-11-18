@@ -9,3 +9,8 @@ nbactions.xml
 nb-configuration.xml
 build.xml
 manifest.mf
+
+# project specific #
+src/resources/sounds_nonfree/
+WhoIsIt/
+ReverseMusic/

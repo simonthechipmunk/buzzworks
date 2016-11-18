@@ -10,10 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.util.ArrayList;
+import javafx.embed.swing.JFXPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-
 
 /**
  *
@@ -28,6 +27,10 @@ public class BuzzWorks {
     
     private static ArrayList<Boolean> checkboxes;
 
+    //init sound framework (JFX)
+    static JFXPanel fxPanel;
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -65,6 +68,8 @@ public class BuzzWorks {
             e.printStackTrace();
         }
         
+        fxPanel = new JFXPanel();
+
         
         
         

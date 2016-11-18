@@ -7,9 +7,12 @@ package buzzworks;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  *
@@ -23,6 +26,9 @@ public class mainWindow extends javax.swing.JFrame {
     private ArrayList<TeamPanel> teampanels;
     private TeamWindowPoints teamWindowPoints1;
     private ArrayList<Boolean> checkboxes;
+    private MediaPlayer mediaPlayer;
+    private int buzzedteamindex = -1;
+    private boolean gametab_present = false;
 
     /**
      * Creates new form mainWindow
@@ -39,6 +45,16 @@ public class mainWindow extends javax.swing.JFrame {
         //init window components
         initComponents();
         jLabel_TeamBuzzed.setVisible(false);
+        
+        //create gametab if possible
+        try{
+            jTabbedPane4.addTab("Game", new GamePanelAll(this));
+            gametab_present = true;
+        }
+        catch(Exception e){
+            
+        }
+        
         
         //create teamtabs
         for (int i = 0; i < teamlist.size(); i++) {
@@ -101,6 +117,11 @@ public class mainWindow extends javax.swing.JFrame {
         });
 
         jLabel_TeamBuzzed.setFont(new java.awt.Font("Cantarell", 0, 80)); // NOI18N
+        jLabel_TeamBuzzed.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_TeamBuzzedMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -142,10 +163,67 @@ public class mainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         serial.Send("all:buzz.reset\n");
         
+        //switch back to game tab
+        if(buzzedteamindex >= 0){
+            switchGame();
+        }
+        
+        buzzedteamindex = -1;
+        
         //reset global tag
         jLabel_TeamBuzzed.setVisible(false);
         teamWindowPoints1.unselectTeam();
     }//GEN-LAST:event_jButton_ResetAllActionPerformed
+
+    private void jLabel_TeamBuzzedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_TeamBuzzedMouseClicked
+        // TODO add your handling code here:
+        
+        //toggle between Game and Buzzed Team
+        if(gametab_present && ("→ " + jTabbedPane4.getTitleAt(jTabbedPane4.getSelectedIndex())).equals(jLabel_TeamBuzzed.getText())){
+            switchGame();
+        }
+        else{
+            switchToTeam();
+        }
+    }//GEN-LAST:event_jLabel_TeamBuzzedMouseClicked
+    
+    //switch to "Buzzed Team" tab
+    public void switchToTeam(){
+        if(buzzedteamindex >= 0){
+            jTabbedPane4.setSelectedIndex(buzzedteamindex);
+        }
+    }
+    
+    //switch to "Game" tab (if present)
+    public void switchGame(){
+        if(gametab_present){
+            for (int i = 0; i < jTabbedPane4.getTabCount(); i++) {
+                    if (jTabbedPane4.getTitleAt(i).equals("Game")) {
+                        jTabbedPane4.setSelectedIndex(i);
+                        break;
+                    }
+            }
+        }
+    }
+    
+    //play sound
+    public void playSound(URL url){
+        try{
+            // cl is the ClassLoader for the current class, ie. CurrentClass.class.getClassLoader();
+            URL file = url;
+            final Media media = new Media(file.toString());
+            if(mediaPlayer != null) mediaPlayer.dispose();
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void stopSound(){
+        if(mediaPlayer != null) mediaPlayer.dispose();
+    }
     
     //update lists for displaying points
     private void updatePointList(){
@@ -172,7 +250,11 @@ public class mainWindow extends javax.swing.JFrame {
     //handle "buzzer pressed" event
     private void buzzhandler(String address) {
 
-        //activate teamtab
+        //play sound
+        playSound(mainWindow.class.getClassLoader().getResource("resources/sounds/positive_beeps1.wav"));
+        //playSound(mainWindow.class.getClassLoader().getResource("resources/sounds_nonfree/correct_answer1_fast.wav"));
+        
+        //get "buzzed" team
         for (int e = 0; e < teampanels.size(); e++) {
             
             if (teampanels.get(e).team.getAddress() == Integer.parseInt(address)) {
@@ -180,7 +262,8 @@ public class mainWindow extends javax.swing.JFrame {
                     if (jTabbedPane4.getTitleAt(i).equals(teampanels.get(e).team.getName())) {
                         
                         //select teamtab
-                        jTabbedPane4.setSelectedIndex(i);
+                        if(!gametab_present)jTabbedPane4.setSelectedIndex(i);
+                        buzzedteamindex = i;
                         
                         //set global tag
                         jLabel_TeamBuzzed.setText("→ " + teampanels.get(e).team.getName());

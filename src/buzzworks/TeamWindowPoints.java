@@ -62,6 +62,8 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList_Points = new javax.swing.JList<>();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
         jList_Teams.setMinimumSize(new java.awt.Dimension(350, 0));
         jList_Teams.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(jList_Teams);
