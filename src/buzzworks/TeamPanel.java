@@ -92,28 +92,40 @@ public class TeamPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton_TeamDeactivate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/window-close-symbolic.symbolic.png"))); // NOI18N
         jButton_TeamDeactivate.setText("Deactivate");
+        jButton_TeamDeactivate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_TeamDeactivate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_TeamDeactivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_TeamDeactivateActionPerformed(evt);
             }
         });
 
+        jButton_TeamActivate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/emblem-ok-symbolic.symbolic.png"))); // NOI18N
         jButton_TeamActivate.setText("Activate");
+        jButton_TeamActivate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_TeamActivate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_TeamActivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_TeamActivateActionPerformed(evt);
             }
         });
 
+        jButton_TeamUnlock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/rotation-locked-symbolic.png"))); // NOI18N
         jButton_TeamUnlock.setText("Unlock");
+        jButton_TeamUnlock.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_TeamUnlock.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_TeamUnlock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_TeamUnlockActionPerformed(evt);
             }
         });
 
+        jButton_TeamLock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/system-lock-screen-symbolic.symbolic.png"))); // NOI18N
         jButton_TeamLock.setText("Lock");
+        jButton_TeamLock.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_TeamLock.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_TeamLock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_TeamLockActionPerformed(evt);
@@ -129,7 +141,7 @@ public class TeamPanel extends javax.swing.JPanel {
         jList_TeamPoints.setPreferredSize(new java.awt.Dimension(200, 259));
         jScrollPane1.setViewportView(jList_TeamPoints);
 
-        jButton_TeamAddPoints.setText("Add");
+        jButton_TeamAddPoints.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/list-add-symbolic.png"))); // NOI18N
         jButton_TeamAddPoints.setMinimumSize(new java.awt.Dimension(60, 37));
         jButton_TeamAddPoints.setPreferredSize(new java.awt.Dimension(60, 37));
         jButton_TeamAddPoints.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +150,7 @@ public class TeamPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton_TeamTakePoints.setText("Take");
+        jButton_TeamTakePoints.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/list-remove-symbolic.png"))); // NOI18N
         jButton_TeamTakePoints.setMinimumSize(new java.awt.Dimension(60, 37));
         jButton_TeamTakePoints.setPreferredSize(new java.awt.Dimension(60, 37));
         jButton_TeamTakePoints.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +162,8 @@ public class TeamPanel extends javax.swing.JPanel {
         jLabel_TeamPoints.setFont(new java.awt.Font("Cantarell", 1, 60)); // NOI18N
         jLabel_TeamPoints.setText("0");
 
-        jButton_TeamApplyName.setText("Apply Name");
+        jButton_TeamApplyName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/tag-symbolic-16px.png"))); // NOI18N
+        jButton_TeamApplyName.setText(" Apply");
         jButton_TeamApplyName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_TeamApplyNameActionPerformed(evt);
@@ -164,10 +177,11 @@ public class TeamPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel_TeamName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_TeamAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel_TeamName, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(jLabel_TeamAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -178,7 +192,7 @@ public class TeamPanel extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jButton_TeamAddPoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jButton_TeamTakePoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(jLabel_TeamPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
+                                    .addComponent(jLabel_TeamPoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jColorChooser_TeamColor, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()

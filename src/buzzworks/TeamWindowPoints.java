@@ -20,7 +20,9 @@ import javax.swing.ListCellRenderer;
 public class TeamWindowPoints extends javax.swing.JFrame {
 
     private ArrayList<TeamPanel> teampanels;
+    private mainWindow mainwindow;
     
+    private TimerBar timerbar;
     private int buzzed_address = -1;
     
     /**
@@ -30,7 +32,8 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         initComponents();
     }
 
-    public TeamWindowPoints(ArrayList teampanels){
+    public TeamWindowPoints(mainWindow mainwindow, ArrayList teampanels){
+        this.mainwindow = mainwindow;
         this.teampanels = teampanels;
         
         //set window title
@@ -38,8 +41,8 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         
         //init window components
         initComponents();
-        //jList_Teams.setEnabled(false);
-        //jList_Points.setEnabled(false);
+        jLabel_Timer.setVisible(false);
+        jProgressBar_Timer.setVisible(false);
         
         //set jLabel renderer for list
         jList_Teams.setCellRenderer(new TeamWindowPoints.LabelRenderer());
@@ -61,6 +64,9 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         jList_Teams = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList_Points = new javax.swing.JList<>();
+        jLabel_Header = new javax.swing.JLabel();
+        jProgressBar_Timer = new javax.swing.JProgressBar();
+        jLabel_Timer = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -71,30 +77,73 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         jList_Points.setMinimumSize(new java.awt.Dimension(200, 0));
         jScrollPane2.setViewportView(jList_Points);
 
+        jLabel_Header.setFont(new java.awt.Font("Cantarell", 0, 60)); // NOI18N
+        jLabel_Header.setText("Teams - Points");
+        jLabel_Header.setMaximumSize(new java.awt.Dimension(391, 127));
+        jLabel_Header.setMinimumSize(new java.awt.Dimension(391, 127));
+        jLabel_Header.setPreferredSize(new java.awt.Dimension(391, 127));
+
+        jProgressBar_Timer.setFocusable(false);
+        jProgressBar_Timer.setOpaque(false);
+        jProgressBar_Timer.setRequestFocusEnabled(false);
+
+        jLabel_Timer.setFont(new java.awt.Font("Cantarell", 1, 100)); // NOI18N
+        jLabel_Timer.setForeground(new java.awt.Color(182, 48, 45));
+        jLabel_Timer.setText("5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_Header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jProgressBar_Timer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 825, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel_Timer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar_Timer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_Header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //start Timer
+    public void startTimer(int time){
+        stopTimer();
+        timerbar = new TimerBar(mainwindow, time);
+        new Thread(timerbar).start();
+    }
+    
+    //stop Timer
+    public void stopTimer(){
+        try{
+            timerbar.terminate();
+        }
+        catch(Exception e){
+            
+        }
+    }
 
     //update the teamlist
     public void updateList(){
@@ -170,9 +219,93 @@ public class TeamWindowPoints extends javax.swing.JFrame {
         }
     }
     
+    
+    //thread for displaying Timer progressbar
+    private class TimerBar implements Runnable {
+        
+        private volatile boolean running = true;
+        
+        private mainWindow mainwindow;
+        private final int updateinterval = 10;
+        private int time = 0;
+        private int seconds;
+        
+        public TimerBar(mainWindow mainwindow, int seconds) {
+            this.mainwindow = mainwindow;
+            this.seconds = seconds;
+            
+            //init
+            jLabel_Timer.setVisible(true);
+            jLabel_Timer.setText(Integer.toString(this.seconds));
+            
+            jProgressBar_Timer.setVisible(true);
+            jProgressBar_Timer.setMinimum(0);
+            jProgressBar_Timer.setMaximum(this.seconds*1000);
+            jProgressBar_Timer.setValue(this.seconds*1000);
+            
+        }
+        
+        public void terminate() 
+        {
+            running = false;
+            try{
+                Thread.sleep(10);
+            }
+            catch(Exception e){
+                
+            }
+        }
+        
+        @Override
+        public void run() {
+            //background
+            
+            try{
+                
+                //run for x seconds. give some additional 500ms to display "0" at the end
+                while(time <= seconds*1000+500 && running){
+                    
+                    Thread.sleep(updateinterval);
+                    
+                    //update seconds counter
+                    if(time%1000 == 0){
+                        jLabel_Timer.setText(Integer.toString(seconds - time/1000));
+                        
+                        //play sound when time is up
+                        if(seconds - time/1000 == 0){
+                            mainwindow.playSound(mainWindow.class.getClassLoader().getResource("resources/sounds/positive_beeps1.wav"));
+                        }
+                    }
+                    
+                    //update progressbar
+                    if(time <= seconds*1000){
+                        jProgressBar_Timer.setValue(seconds*1000 - time);
+                    }
+                    
+                    time += updateinterval;
+                }
+                
+            }
+            catch (Exception e){
+                
+            }
+            
+            //exit
+            jLabel_Timer.setVisible(false);
+            jProgressBar_Timer.setVisible(false);
+
+
+        }
+        
+        
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel_Header;
+    private javax.swing.JLabel jLabel_Timer;
     private javax.swing.JList<String> jList_Points;
     private javax.swing.JList<String> jList_Teams;
+    private javax.swing.JProgressBar jProgressBar_Timer;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

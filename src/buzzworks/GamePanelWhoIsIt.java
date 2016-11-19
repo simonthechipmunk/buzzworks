@@ -23,12 +23,13 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
     
     private mainWindow mainwindow;
     private ArrayList<Image> images;
+    DefaultListModel model;
     public GameWindowPanelWhoIsIt gamewindowpanel;
     private int playcount;
 
     /**
      * Creates new form GamePanelWhoIsIt. Files must be stored in current directory subfolder "WhoIsIt" 
-     * and following the namescheme: NAME.png (500x500)
+     * and following the namescheme: NAME.png NAME.jpg (500x500)
      */
     public GamePanelWhoIsIt() {
         initComponents();
@@ -51,7 +52,7 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         }
         
         //fill list and init
-        DefaultListModel model = new DefaultListModel();
+        model = new DefaultListModel();
         for(int i=0; i<images.size(); i++){
             model.addElement(images.get(i).getName());
         }   
@@ -104,14 +105,20 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         jLabel_Name.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Name.setText("Name");
 
+        jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/image-x-generic-symbolic.symbolic.png"))); // NOI18N
         jButton_Show.setText("Show");
+        jButton_Show.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_Show.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ShowActionPerformed(evt);
             }
         });
 
-        jButton_Next.setText("Next");
+        jButton_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/edit-undo-symbolic-rtl.png"))); // NOI18N
+        jButton_Next.setText("Next (Random)");
+        jButton_Next.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_Next.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_NextActionPerformed(evt);
@@ -133,17 +140,17 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel_Header, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
-                    .addComponent(jLabel_Image, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_Image, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Show, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                        .addGap(52, 52, 52)
-                        .addComponent(jButton_Next, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Next, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -173,11 +180,15 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
             gamewindowpanel.setImage(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/WhoIsIt/" + 
                     images.get(jList_Images.getSelectedIndex()).getImagefile()));
             jButton_Show.setText("Show");
+            jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/dialog-warning-symbolic.symbolic.png")));
         }
         else{
             jButton_Show.setEnabled(false);
             gamewindowpanel.setName(images.get(jList_Images.getSelectedIndex()).getName());
             mainwindow.switchToTeam();
+            
+            //mark Track as played
+            model.setElementAt(images.get(jList_Images.getSelectedIndex()).getName()+ "  ●", jList_Images.getSelectedIndex());
         
             //count number of played tracks
             if(images.get(jList_Images.getSelectedIndex()).setSelected()){
@@ -193,6 +204,7 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         gamewindowpanel.setReset();
         jButton_Show.setEnabled(true);
         jButton_Show.setText("Show Image");
+        jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/image-x-generic-symbolic.symbolic.png")));
               
     }//GEN-LAST:event_jButton_NextActionPerformed
 

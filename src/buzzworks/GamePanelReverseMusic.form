@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
@@ -40,12 +40,12 @@
                       <Component id="jButton_Stop" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jButton_Show" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="jButton_Next" max="32767" attributes="0"/>
+                      <Component id="jButton_Show" min="-2" pref="180" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton_Next" min="-2" pref="180" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="410" max="32767" attributes="0"/>
               </Group>
@@ -111,7 +111,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Next">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Next"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/edit-undo-symbolic-rtl.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Next (Random)"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_NextActionPerformed"/>
@@ -119,7 +124,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Show">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/dialog-warning-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Show"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_ShowActionPerformed"/>
@@ -163,7 +173,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_PlayReverse">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/emblem-music-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Play Reverse"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_PlayReverseActionPerformed"/>
@@ -171,7 +186,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Stop">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/media-playback-stop-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Stop"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_StopActionPerformed"/>

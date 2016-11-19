@@ -64,49 +64,70 @@ public class TeamPanelAll extends javax.swing.JPanel {
             }
         });
 
+        jButton_AllDeactivate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/window-close-symbolic.symbolic.png"))); // NOI18N
         jButton_AllDeactivate.setText("Deactivate All");
+        jButton_AllDeactivate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllDeactivate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllDeactivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllDeactivateActionPerformed(evt);
             }
         });
 
+        jButton_AllActivate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/emblem-ok-symbolic.symbolic.png"))); // NOI18N
         jButton_AllActivate.setText("Activate All");
+        jButton_AllActivate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllActivate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllActivate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllActivateActionPerformed(evt);
             }
         });
 
+        jButton_AllUnlock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/rotation-locked-symbolic.png"))); // NOI18N
         jButton_AllUnlock.setText("Unlock All");
+        jButton_AllUnlock.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllUnlock.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllUnlock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllUnlockActionPerformed(evt);
             }
         });
 
+        jButton_AllLock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/system-lock-screen-symbolic.symbolic.png"))); // NOI18N
         jButton_AllLock.setText("Lock All");
+        jButton_AllLock.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllLock.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllLock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllLockActionPerformed(evt);
             }
         });
 
+        jButton_AllSetIdleCol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/preferences-color-symbolic.symbolic.png"))); // NOI18N
         jButton_AllSetIdleCol.setText("Set Idle Color");
+        jButton_AllSetIdleCol.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllSetIdleCol.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllSetIdleCol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllSetIdleColActionPerformed(evt);
             }
         });
 
+        jButton_AllSetLockCol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/preferences-color-symbolic.symbolic.png"))); // NOI18N
         jButton_AllSetLockCol.setText("Set Lock Color");
+        jButton_AllSetLockCol.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllSetLockCol.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllSetLockCol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllSetLockColActionPerformed(evt);
             }
         });
 
+        jButton_AllSetActiveCol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/preferences-color-symbolic.symbolic.png"))); // NOI18N
         jButton_AllSetActiveCol.setText("Set Active Color");
+        jButton_AllSetActiveCol.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_AllSetActiveCol.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_AllSetActiveCol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_AllSetActiveColActionPerformed(evt);

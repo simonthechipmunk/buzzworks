@@ -28,6 +28,8 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         this.checkboxes = checkboxes;
 
         initComponents();
+        jCheckBox_GameTab.setSelected(true);
+        jCheckBox_Timer.setEnabled(false);
         pack();
 
         //init infobar
@@ -74,6 +76,9 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         jButton_OK = new javax.swing.JButton();
         jLabel_Title = new javax.swing.JLabel();
         jCheckBox_PointsWindow = new javax.swing.JCheckBox();
+        jCheckBox_DebugMode = new javax.swing.JCheckBox();
+        jCheckBox_GameTab = new javax.swing.JCheckBox();
+        jCheckBox_Timer = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,10 +96,31 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         jLabel_Title.setFont(new java.awt.Font("Cantarell", 0, 48)); // NOI18N
         jLabel_Title.setText("Select Serial Port");
 
-        jCheckBox_PointsWindow.setText("Display Points Window");
+        jCheckBox_PointsWindow.setText("Additional PointList Window");
         jCheckBox_PointsWindow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox_PointsWindowActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_DebugMode.setText("Test Mode");
+        jCheckBox_DebugMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_DebugModeActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_GameTab.setText("Initialize GameTab");
+        jCheckBox_GameTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_GameTabActionPerformed(evt);
+            }
+        });
+
+        jCheckBox_Timer.setText("Enable Timer");
+        jCheckBox_Timer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_TimerActionPerformed(evt);
             }
         });
 
@@ -119,7 +145,13 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                             .addComponent(jButton_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jCheckBox_PointsWindow)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox_PointsWindow)
+                            .addComponent(jCheckBox_DebugMode)
+                            .addComponent(jCheckBox_GameTab)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(jCheckBox_Timer)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -132,7 +164,13 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                     .addComponent(jButton_OK))
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox_PointsWindow)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox_Timer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox_GameTab)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox_DebugMode)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jProgressBar_Create, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_Progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -146,22 +184,50 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     private void jCheckBox_PointsWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_PointsWindowActionPerformed
         // TODO add your handling code here:
+        jCheckBox_Timer.setEnabled(jCheckBox_PointsWindow.isSelected());
     }//GEN-LAST:event_jCheckBox_PointsWindowActionPerformed
+
+    private void jCheckBox_DebugModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_DebugModeActionPerformed
+        // TODO add your handling code here:
+        
+        //disable list/button
+        jComboBox_Ports.setEnabled(!jCheckBox_DebugMode.isSelected());
+    }//GEN-LAST:event_jCheckBox_DebugModeActionPerformed
+
+    private void jCheckBox_GameTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_GameTabActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_GameTabActionPerformed
+
+    private void jCheckBox_TimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_TimerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_TimerActionPerformed
 
     private class serialparser implements Runnable {
 
         @Override
         public void run() {
             //background
+            
+            DialogBuzzerEmulation dialogbuzzeremulation = null;
             try {
-                serial.connect(jComboBox_Ports.getSelectedItem().toString());
+                
+                //disable list/button
+                jButton_OK.setEnabled(false);
+                jComboBox_Ports.setEnabled(false);
+                jCheckBox_PointsWindow.setEnabled(false);
+                jCheckBox_DebugMode.setEnabled(false);
+                jCheckBox_GameTab.setEnabled(false);
+                jCheckBox_Timer.setEnabled(false);
+                
+                if(jCheckBox_DebugMode.isSelected()){
+                    dialogbuzzeremulation = new DialogBuzzerEmulation(serial);
+                }
+                else{
+                    serial.connect(jComboBox_Ports.getSelectedItem().toString());
+                }
 
                 //scan for buzzers
                 serial.Send("all:get.online\n");
-
-                //disiable list/button
-                jButton_OK.setEnabled(false);
-                jComboBox_Ports.setEnabled(false);
                 
                 //set text
                 jLabel_Progress.setText("Waiting for Serial");
@@ -206,8 +272,15 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 
+            //set buzzer emulation visible
+            if(dialogbuzzeremulation != null){
+                dialogbuzzeremulation.setVisible(true);
+            }
+            
             //return checkbox state
             checkboxes.add(jCheckBox_PointsWindow.isSelected());
+            checkboxes.add(jCheckBox_Timer.isSelected());
+            checkboxes.add(jCheckBox_GameTab.isSelected());
             
             //close window and switch to mainview
             dispose();
@@ -218,7 +291,10 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_OK;
+    private javax.swing.JCheckBox jCheckBox_DebugMode;
+    private javax.swing.JCheckBox jCheckBox_GameTab;
     private javax.swing.JCheckBox jCheckBox_PointsWindow;
+    private javax.swing.JCheckBox jCheckBox_Timer;
     private javax.swing.JComboBox<String> jComboBox_Ports;
     private javax.swing.JLabel jLabel_Progress;
     private javax.swing.JLabel jLabel_Title;

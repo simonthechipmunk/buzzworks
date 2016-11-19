@@ -24,7 +24,7 @@ public class mainWindow extends javax.swing.JFrame {
     private BuzzWatch buzzwatch;
     private ArrayList<Integer> teamlist;
     private ArrayList<TeamPanel> teampanels;
-    private TeamWindowPoints teamWindowPoints1;
+    private TeamWindowPoints teamWindowPoints;
     private ArrayList<Boolean> checkboxes;
     private MediaPlayer mediaPlayer;
     private int buzzedteamindex = -1;
@@ -45,14 +45,17 @@ public class mainWindow extends javax.swing.JFrame {
         //init window components
         initComponents();
         jLabel_TeamBuzzed.setVisible(false);
-        
-        //create gametab if possible
-        try{
-            jTabbedPane4.addTab("Game", new GamePanelAll(this));
-            gametab_present = true;
-        }
-        catch(Exception e){
+        jToggleButton_Timer.setVisible(this.checkboxes.get(1));
+
+        //create gametab if possible and checkbox is selected
+        if(this.checkboxes.get(2)){
+            try{
+                jTabbedPane4.addTab("Game", new GamePanelAll(this));
+                gametab_present = true;
+            }
+            catch(Exception e){
             
+            }
         }
         
         
@@ -70,8 +73,8 @@ public class mainWindow extends javax.swing.JFrame {
         }
         
         //create external points window
-        teamWindowPoints1 = new TeamWindowPoints(teampanels);
-        teamWindowPoints1.setVisible(this.checkboxes.get(0));
+        teamWindowPoints = new TeamWindowPoints(this, teampanels);
+        teamWindowPoints.setVisible(this.checkboxes.get(0));
         
         //initialize the pointslist
         updatePointList();
@@ -102,6 +105,7 @@ public class mainWindow extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton_ResetAll = new javax.swing.JButton();
         jLabel_TeamBuzzed = new javax.swing.JLabel();
+        jToggleButton_Timer = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
@@ -109,7 +113,11 @@ public class mainWindow extends javax.swing.JFrame {
         jTabbedPane4.addTab("All Teams", teamPanelAll1);
         jTabbedPane4.addTab("Points", teamPanelPoints1);
 
+        jButton_ResetAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/emblem-synchronizing-symbolic.symbolic.png"))); // NOI18N
         jButton_ResetAll.setText("Reset Buzzers");
+        jButton_ResetAll.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton_ResetAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_ResetAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_ResetAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ResetAllActionPerformed(evt);
@@ -123,28 +131,43 @@ public class mainWindow extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton_Timer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/document-open-recent-symbolic.symbolic.png"))); // NOI18N
+        jToggleButton_Timer.setText("Timer OFF");
+        jToggleButton_Timer.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jToggleButton_Timer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButton_Timer.setRolloverEnabled(false);
+        jToggleButton_Timer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToggleButton_Timer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton_TimerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_ResetAll, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton_ResetAll, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton_ResetAll, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(jLabel_TeamBuzzed, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jButton_ResetAll, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jToggleButton_Timer, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1040, Short.MAX_VALUE)
+            .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1061, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -172,7 +195,7 @@ public class mainWindow extends javax.swing.JFrame {
         
         //reset global tag
         jLabel_TeamBuzzed.setVisible(false);
-        teamWindowPoints1.unselectTeam();
+        teamWindowPoints.unselectTeam();
     }//GEN-LAST:event_jButton_ResetAllActionPerformed
 
     private void jLabel_TeamBuzzedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_TeamBuzzedMouseClicked
@@ -186,6 +209,16 @@ public class mainWindow extends javax.swing.JFrame {
             switchToTeam();
         }
     }//GEN-LAST:event_jLabel_TeamBuzzedMouseClicked
+
+    private void jToggleButton_TimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_TimerActionPerformed
+        // TODO add your handling code here:
+        if(jToggleButton_Timer.isSelected()){
+            jToggleButton_Timer.setText("Timer ON");
+        }
+        else{
+            jToggleButton_Timer.setText("Timer OFF");
+        }
+    }//GEN-LAST:event_jToggleButton_TimerActionPerformed
     
     //switch to "Buzzed Team" tab
     public void switchToTeam(){
@@ -229,7 +262,7 @@ public class mainWindow extends javax.swing.JFrame {
     private void updatePointList(){
         teampanels.sort(TeampanelPointsComparator);
         teamPanelPoints1.updateList();
-        teamWindowPoints1.updateList();
+        teamWindowPoints.updateList();
     }
     
     private Comparator<TeamPanel> TeampanelPointsComparator
@@ -254,6 +287,11 @@ public class mainWindow extends javax.swing.JFrame {
         playSound(mainWindow.class.getClassLoader().getResource("resources/sounds/positive_beeps1.wav"));
         //playSound(mainWindow.class.getClassLoader().getResource("resources/sounds_nonfree/correct_answer1_fast.wav"));
         
+        //display timer if pointswindow and timer are enabled
+        if(checkboxes.get(1) && jToggleButton_Timer.isSelected()){
+            teamWindowPoints.startTimer(5);
+        }
+
         //get "buzzed" team
         for (int e = 0; e < teampanels.size(); e++) {
             
@@ -271,7 +309,7 @@ public class mainWindow extends javax.swing.JFrame {
                         jLabel_TeamBuzzed.setVisible(true);
                         
                         //select team on external points list
-                        teamWindowPoints1.selectTeam(Integer.parseInt(address));
+                        teamWindowPoints.selectTeam(Integer.parseInt(address));
                         break;
                     }
                 }
@@ -318,6 +356,7 @@ public class mainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_TeamBuzzed;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane4;
+    private javax.swing.JToggleButton jToggleButton_Timer;
     private buzzworks.TeamPanelAll teamPanelAll1;
     private buzzworks.TeamPanelPoints teamPanelPoints1;
     // End of variables declaration//GEN-END:variables

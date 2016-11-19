@@ -41,9 +41,17 @@
                           <Component id="jButton_OK" min="-2" pref="155" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jCheckBox_PointsWindow" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCheckBox_PointsWindow" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox_DebugMode" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox_GameTab" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Component id="jCheckBox_Timer" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -61,7 +69,13 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jCheckBox_PointsWindow" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="121" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jCheckBox_Timer" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jCheckBox_GameTab" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jCheckBox_DebugMode" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jProgressBar_Create" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="jLabel_Progress" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
@@ -111,10 +125,34 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBox_PointsWindow">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Display Points Window"/>
+        <Property name="text" type="java.lang.String" value="Additional PointList Window"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_PointsWindowActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox_DebugMode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Test Mode"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_DebugModeActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox_GameTab">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Initialize GameTab"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_GameTabActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox_Timer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enable Timer"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_TimerActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

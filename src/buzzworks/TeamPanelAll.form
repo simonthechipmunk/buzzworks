@@ -97,7 +97,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllDeactivate">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/window-close-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Deactivate All"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllDeactivateActionPerformed"/>
@@ -105,7 +110,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllActivate">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/emblem-ok-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Activate All"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllActivateActionPerformed"/>
@@ -113,7 +123,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllUnlock">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/rotation-locked-symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Unlock All"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllUnlockActionPerformed"/>
@@ -121,7 +136,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllLock">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/system-lock-screen-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Lock All"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllLockActionPerformed"/>
@@ -131,7 +151,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllSetIdleCol">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/preferences-color-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Set Idle Color"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllSetIdleColActionPerformed"/>
@@ -139,7 +164,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllSetLockCol">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/preferences-color-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Set Lock Color"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllSetLockColActionPerformed"/>
@@ -147,7 +177,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_AllSetActiveCol">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/resources/icons/preferences-color-symbolic.symbolic.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Set Active Color"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AllSetActiveColActionPerformed"/>

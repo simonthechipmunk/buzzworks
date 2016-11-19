@@ -14,13 +14,26 @@ any later version.
 ## Features
 * Manage Teams (Name, Points, Color) through GUI
 * Manage Buzzers (Animation Mode, Lock, Colors) through GUI
+* Additional Window "Team Chart" to display teams and points on additional screen
+* Two Games implemented ("Reverse Music", "Who is it?")
+* Test Mode for running the Application without Hardware Buzzers
 
+## System Requirements / Dependencies
+**Minimum**
+* Java 8 (openjdk-8-jre)
+* javaFX (openjfx, libopenjfx-java)
+* Screen (1024x768)
 
+**Recommended**
+* Java 8 (openjdk-8-jre)
+* javaFX (openjfx, libopenjfx-java)
+* TouchScreen (1024x768) for Gamemaster
+* Additional Screens/Projectors for GameWindow and TeamChart
 
 
 
 ## Setup
-The basic setup:
+**The basic setup**
 
 JavaBuzzWorks <-> Serial RS232 <-> Arduino(Atmega328) <-> I²C Bus <-> Buzzers(ATTiny85)
 
@@ -32,6 +45,34 @@ A short description of the message structure is written down in Commands.md
 The Buzzers are fairly easy to make and quite universal as they feature 15 addressable WS2812b LEDs and 2 digital output pins
 for data transmission. Using those for software based I²C means the system becomes highly flexible (number of buzzers, remotely assigning teamcolors, setting animations, locking specific teams, ...).
 A detailed instruction Guide on how to make them will follow as soon as I get the time to do it ;) (link will be included here)
+
+**How to start the program and add music/pictures to the games**
+
+You can use the prepacked BuzzWorks.zip. Simply unpack it and run the shell script "BuzzWorks" inside the folder (it
+essentially just runs "java -jar BuzzWorks.jar" but makes sure our current directory is set correctly).
+
+To run the program without hardware Buzzers simply check "Test Mode" on the upcoming connection window. This creates 4 teams
+and an additional window with 4 buttons to emulate the buzzers.
+
+To use the integrated games, you need to add your own files to the corresponding folders:
+
+"Reverse Music":
+
+Add two audio files (.wav) for each track you want to play to the "ReverseMusic" folder. One that plays it forward and one that
+plays in reverse and use the following namescheme:
+
+	TITLE_ARTIST_(+).wav
+	TITLE_ARTIST_(-).wav
+	#Example: Hot n Cold_Katy Perry_(+).wav
+	
+"Who is it?":
+
+Add one image file (.png, .jpg) for each image you want to display to the "WhoIsIt" folder and use the following namescheme:
+
+	NAME.png
+	#Example: Abraham Lincoln.png
+
+
 
 
 This Application makes use of third party libraries to make this work. Thanks to authors and companies behind those:
@@ -52,8 +93,6 @@ RxTx (BuiltIn)
 
 
 ## Missing features
-* tab with list of teams and points, external window with points list to show via projector
-* actual games to play
 
 
 
@@ -78,7 +117,15 @@ RxTx (BuiltIn)
 
 
 ## Change log
-**Version 1 (14-11-2016)**
-* first public version
+**Version 1.0 (14-11-2016)**
+* first public version#
+
+**Version 1.1 (20-11-2016)**
+* added TeamChart
+* added TestMode
+* added Game "Reverse Music"
+* added Game "Who is it?"
+* make this program fancy again (added icons from the gnome project)
+* minor bugfixes
 
 

@@ -14,6 +14,8 @@ import gnu.io.SerialPort;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 /**
  *
@@ -35,6 +37,9 @@ public class Serial {
     public Serial()
     {
         super();
+        in = new PipedInputStream();
+        out = new PipedOutputStream();
+        
     }
     
     public void connect ( String portName ) throws Exception
@@ -69,6 +74,7 @@ public class Serial {
         } 
         
     }
+    
     
     public void close() throws Exception{
         

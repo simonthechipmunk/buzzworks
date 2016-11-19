@@ -25,6 +25,7 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
     private mainWindow mainwindow;
     private GameWindow gamewindow;
     private ArrayList<Track> tracks;
+    DefaultListModel model;
     public GameWindowPanelReverseMusic gamewindowpanel;
     private int playcount;
 
@@ -54,7 +55,7 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         }
         
         //fill list and init
-        DefaultListModel model = new DefaultListModel();
+        model = new DefaultListModel();
         for(int i=0; i<tracks.size(); i++){
             model.addElement(tracks.get(i).getTitle() + " - " + tracks.get(i).getArtist() );
         }   
@@ -114,14 +115,20 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jLabel_Title.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Title.setText("Title");
 
-        jButton_Next.setText("Next");
+        jButton_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/edit-undo-symbolic-rtl.png"))); // NOI18N
+        jButton_Next.setText("Next (Random)");
+        jButton_Next.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_Next.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_NextActionPerformed(evt);
             }
         });
 
+        jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/dialog-warning-symbolic.symbolic.png"))); // NOI18N
         jButton_Show.setText("Show");
+        jButton_Show.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_Show.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_ShowActionPerformed(evt);
@@ -136,14 +143,20 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jLabel_Artist.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Artist.setText("Artist");
 
+        jButton_PlayReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/emblem-music-symbolic.symbolic.png"))); // NOI18N
         jButton_PlayReverse.setText("Play Reverse");
+        jButton_PlayReverse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_PlayReverse.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_PlayReverse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_PlayReverseActionPerformed(evt);
             }
         });
 
+        jButton_Stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/media-playback-stop-symbolic.symbolic.png"))); // NOI18N
         jButton_Stop.setText("Stop");
+        jButton_Stop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_Stop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton_Stop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_StopActionPerformed(evt);
@@ -179,9 +192,9 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(52, 52, 52)
-                        .addComponent(jButton_Next, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton_Show, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Next, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -234,6 +247,15 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         gamewindowpanel.setTitleArtist(tracks.get(jList_Tracks.getSelectedIndex()).getTitle(), 
                                        tracks.get(jList_Tracks.getSelectedIndex()).getArtist());
         mainwindow.switchToTeam();
+        
+        //mark Track as played
+        model.setElementAt(tracks.get(jList_Tracks.getSelectedIndex()).getTitle() + " - " 
+                + tracks.get(jList_Tracks.getSelectedIndex()).getArtist() + "  ●", jList_Tracks.getSelectedIndex());
+
+        //count number of played tracks
+        if(tracks.get(jList_Tracks.getSelectedIndex()).setSelected()){
+            playcount++;
+        }
     }//GEN-LAST:event_jButton_ShowActionPerformed
 
     private void jButton_PlayReverseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PlayReverseActionPerformed
@@ -241,14 +263,6 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         playTrackReverse(jList_Tracks.getSelectedIndex());
         jButton_Show.setEnabled(true);
         jButton_Stop.setEnabled(true);
-        
-        //count number of played tracks
-        if(tracks.get(jList_Tracks.getSelectedIndex()).setSelected()){
-            playcount++;
-        }
-        
-
-
     }//GEN-LAST:event_jButton_PlayReverseActionPerformed
 
     private void jButton_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_StopActionPerformed
