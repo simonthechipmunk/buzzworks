@@ -52,11 +52,12 @@ You can use the prepacked BuzzWorks.zip. Simply unpack it and run the shell scri
 essentially just runs "java -jar BuzzWorks.jar" but makes sure our current directory is set correctly).
 
 To run the program without hardware Buzzers simply check "Test Mode" on the upcoming connection window. This creates 4 teams
-and an additional window with 4 buttons to emulate the buzzers.
+and an additional window with 4 buttons to emulate the buzzers. (Reaction time is quite slow on these as they use
+pipedIOstreams to emulate the serial Buzzers. Actual hardware Buzzers are responding infinitely faster than this)
 
-To use the integrated games, you need to add your own files to the corresponding folders:
+To use the integrated games, you need to add your own files to the corresponding folders. Games will automatically store which images/songs have already been used when the application is closed. To discard these configs tick the appropriate checkbox on startup:
 
-"Reverse Music":
+"Reverse Music" (Try guessing songs when they are played in reverse):
 
 Add two audio files (.wav) for each track you want to play to the "ReverseMusic" folder. One that plays it forward and one that
 plays in reverse and use the following namescheme:
@@ -65,7 +66,7 @@ plays in reverse and use the following namescheme:
 	TITLE_ARTIST_(-).wav
 	#Example: Hot n Cold_Katy Perry_(+).wav
 	
-"Who is it?":
+"Who is it?" (Guess names of people/objects/animals... displayed on the pictures):
 
 Add one image file (.png, .jpg) for each image you want to display to the "WhoIsIt" folder and use the following namescheme:
 
@@ -128,4 +129,8 @@ RxTx (BuiltIn)
 * make this program fancy again (added icons from the gnome project)
 * minor bugfixes
 
+**Version 1.2 (29-11-2016)**
+* added persistent config files for Games
+* fixed textscaling for long songtitles/names
+* fixed various graphical issues
 
