@@ -7,11 +7,14 @@ package buzzworks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -21,11 +24,14 @@ import javax.swing.event.ListSelectionListener;
  */
 public class GamePanelWhoIsIt extends javax.swing.JPanel {
     
+    private final Font defaultLabelFont = new Font("Cantarell", 0, 36);
     private mainWindow mainwindow;
     private ArrayList<Image> images;
     DefaultListModel model;
     public GameWindowPanelWhoIsIt gamewindowpanel;
     private int playcount;
+    
+    private final String configfile = "./WhoIsIt.conf";
 
     /**
      * Creates new form GamePanelWhoIsIt. Files must be stored in current directory subfolder "WhoIsIt" 
@@ -54,7 +60,12 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         //fill list and init
         model = new DefaultListModel();
         for(int i=0; i<images.size(); i++){
-            model.addElement(images.get(i).getName());
+            if(images.get(i).isSelected()){
+                model.addElement("●  " + images.get(i).getName());
+            }
+            else{
+                model.addElement(images.get(i).getName());
+            }
         }   
         jList_Images.setModel(model);
         jList_Images.setSelectedIndex(0);
@@ -69,11 +80,24 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
                 jButton_Show.setEnabled(true);
                 jButton_Show.setText("Show Image");
                 jLabel_Name.setText(images.get(jList_Images.getSelectedIndex()).getName());
+                
+                autoFontsize.calcFontsize(jLabel_Name, defaultLabelFont);
+                
                 jLabel_Image.setIcon(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/WhoIsIt/" + 
                     images.get(jList_Images.getSelectedIndex()).getImagefile()));
                 gamewindowpanel.setReset();
+                
+                jList_Images.ensureIndexIsVisible(jList_Images.getSelectedIndex());
             }
         });
+        
+        //register hook for saving config on exit
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+            public void run() {
+                storeConfig();
+            }
+        }));
         
         //init game
         selectRandomNext();
@@ -104,6 +128,8 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         jLabel_Name.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
         jLabel_Name.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Name.setText("Name");
+        jLabel_Name.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Name.setPreferredSize(new java.awt.Dimension(536, 40));
 
         jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/image-x-generic-symbolic.symbolic.png"))); // NOI18N
         jButton_Show.setText("Show");
@@ -137,13 +163,15 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_Header, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
-                    .addComponent(jLabel_Image, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_Header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_Image, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -167,8 +195,8 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel_Header, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(26, 26, 26))
         );
@@ -188,7 +216,7 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
             mainwindow.switchToTeam();
             
             //mark Track as played
-            model.setElementAt(images.get(jList_Images.getSelectedIndex()).getName()+ "  ●", jList_Images.getSelectedIndex());
+            model.setElementAt("●  " + images.get(jList_Images.getSelectedIndex()).getName(), jList_Images.getSelectedIndex());
         
             //count number of played tracks
             if(images.get(jList_Images.getSelectedIndex()).setSelected()){
@@ -207,7 +235,7 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         jButton_Show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/image-x-generic-symbolic.symbolic.png")));
               
     }//GEN-LAST:event_jButton_NextActionPerformed
-
+    
     //select random
     private void selectRandomNext(){
         
@@ -242,6 +270,17 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
             //sort alphabetically to ensure correct order
             Arrays.sort(listOfFiles);
             
+            //restore config (if any)
+            ArrayList<String> config = new ArrayList();
+            if (!mainwindow.clearconfig) {
+                try{
+                 config = ConfigFile.read(configfile);
+                }
+                catch (Exception e){
+                    //nothing to do
+                }
+            }
+            
             for (int i = 0; i < listOfFiles.length; i++) {
                 
                 //parse name              
@@ -253,6 +292,17 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
                 
                 //append tracklist
                 images.add(new Image(file, name));
+                
+                //restore config
+                if (!config.isEmpty()) {
+                    for (int e = 0; e < config.size(); e++) {
+                        if (config.get(e).equals(images.get(images.size() - 1).getName())) {
+                            images.get(images.size() - 1).setSelected();
+                            playcount++;
+                            break;
+                        }
+                    }
+                }
             }
             
             if(images.isEmpty()){
@@ -264,6 +314,22 @@ public class GamePanelWhoIsIt extends javax.swing.JPanel {
         }
     }
 
+    //save to config file
+    private void storeConfig() {
+
+        ArrayList<String> config = new ArrayList();
+        for (int i = 0; i < images.size(); i++) {
+            if (images.get(i).isSelected()) {
+                config.add(images.get(i).getName());
+            }
+        }
+        try {
+            ConfigFile.write(configfile, config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     //Class for single Image
     private class Image{
         

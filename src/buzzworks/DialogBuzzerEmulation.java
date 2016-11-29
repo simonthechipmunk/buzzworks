@@ -71,6 +71,7 @@ public class DialogBuzzerEmulation extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton_31.setText("31: Buzzer Team A");
+        jButton_31.setRolloverEnabled(false);
         jButton_31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_31ActionPerformed(evt);
@@ -78,6 +79,7 @@ public class DialogBuzzerEmulation extends javax.swing.JFrame {
         });
 
         jButton_32.setText("32: Buzzer Team B");
+        jButton_32.setRolloverEnabled(false);
         jButton_32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_32ActionPerformed(evt);
@@ -85,6 +87,7 @@ public class DialogBuzzerEmulation extends javax.swing.JFrame {
         });
 
         jButton_33.setText("33: Buzzer Team C");
+        jButton_33.setRolloverEnabled(false);
         jButton_33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_33ActionPerformed(evt);
@@ -92,6 +95,7 @@ public class DialogBuzzerEmulation extends javax.swing.JFrame {
         });
 
         jButton_34.setText("34: Buzzer Team D");
+        jButton_34.setRolloverEnabled(false);
         jButton_34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_34ActionPerformed(evt);

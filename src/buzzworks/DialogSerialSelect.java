@@ -79,6 +79,7 @@ public class DialogSerialSelect extends javax.swing.JFrame {
         jCheckBox_DebugMode = new javax.swing.JCheckBox();
         jCheckBox_GameTab = new javax.swing.JCheckBox();
         jCheckBox_Timer = new javax.swing.JCheckBox();
+        jCheckBox_Config = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +125,13 @@ public class DialogSerialSelect extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox_Config.setText("Discard Config Files (Fresh Start)");
+        jCheckBox_Config.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox_ConfigActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,7 +159,9 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                             .addComponent(jCheckBox_GameTab)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(53, 53, 53)
-                                .addComponent(jCheckBox_Timer)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox_Timer)
+                                    .addComponent(jCheckBox_Config, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -166,11 +176,13 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 .addComponent(jCheckBox_PointsWindow)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox_Timer)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBox_GameTab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox_Config)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBox_DebugMode)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jProgressBar_Create, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_Progress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -196,11 +208,16 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     private void jCheckBox_GameTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_GameTabActionPerformed
         // TODO add your handling code here:
+        jCheckBox_Config.setEnabled(jCheckBox_GameTab.isSelected());
     }//GEN-LAST:event_jCheckBox_GameTabActionPerformed
 
     private void jCheckBox_TimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_TimerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox_TimerActionPerformed
+
+    private void jCheckBox_ConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_ConfigActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_ConfigActionPerformed
 
     private class serialparser implements Runnable {
 
@@ -218,6 +235,7 @@ public class DialogSerialSelect extends javax.swing.JFrame {
                 jCheckBox_DebugMode.setEnabled(false);
                 jCheckBox_GameTab.setEnabled(false);
                 jCheckBox_Timer.setEnabled(false);
+                jCheckBox_Config.setEnabled(false);
                 
                 if(jCheckBox_DebugMode.isSelected()){
                     dialogbuzzeremulation = new DialogBuzzerEmulation(serial);
@@ -281,6 +299,7 @@ public class DialogSerialSelect extends javax.swing.JFrame {
             checkboxes.add(jCheckBox_PointsWindow.isSelected());
             checkboxes.add(jCheckBox_Timer.isSelected());
             checkboxes.add(jCheckBox_GameTab.isSelected());
+            checkboxes.add(jCheckBox_Config.isSelected());
             
             //close window and switch to mainview
             dispose();
@@ -291,6 +310,7 @@ public class DialogSerialSelect extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_OK;
+    private javax.swing.JCheckBox jCheckBox_Config;
     private javax.swing.JCheckBox jCheckBox_DebugMode;
     private javax.swing.JCheckBox jCheckBox_GameTab;
     private javax.swing.JCheckBox jCheckBox_PointsWindow;

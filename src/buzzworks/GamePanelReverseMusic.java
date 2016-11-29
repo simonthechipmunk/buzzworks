@@ -7,7 +7,9 @@ package buzzworks;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,71 +23,89 @@ import javax.swing.event.ListSelectionListener;
  * @author Simon Junga (simonthechipmunk)
  */
 public class GamePanelReverseMusic extends javax.swing.JPanel {
-    
+
+    private final Font defaultLabelFont = new Font("Cantarell", 0, 36);
     private mainWindow mainwindow;
-    private GameWindow gamewindow;
     private ArrayList<Track> tracks;
     DefaultListModel model;
     public GameWindowPanelReverseMusic gamewindowpanel;
     private int playcount;
+    
+    private final String configfile = "./ReverseMusic.conf";
 
     /**
-     * Creates new form GamePanelReverseMusic. Files must be stored in current directory subfolder "ReverseMusic" 
-     * and following the namescheme (+ for forward, - for reverse): TITLE_ARTIST_(+).wav
+     * Creates new form GamePanelReverseMusic. Files must be stored in current
+     * directory subfolder "ReverseMusic" and following the namescheme (+ for
+     * forward, - for reverse): TITLE_ARTIST_(+).wav
      */
     public GamePanelReverseMusic() {
         initComponents();
     }
 
-    public GamePanelReverseMusic(mainWindow mainwindow, String name) throws Exception{
+    public GamePanelReverseMusic(mainWindow mainwindow, String name) throws Exception {
         this.setName(name);
         this.mainwindow = mainwindow;
         this.tracks = new ArrayList();
         this.gamewindowpanel = new GameWindowPanelReverseMusic();
-        
+
         initComponents();
         jButton_Stop.setEnabled(false);
-        
+
         //read Tracklist
-        try{
+        try {
             getTracks();
-        }
-        catch (Exception e ){
+        } catch (Exception e) {
             throw e;
         }
-        
+
         //fill list and init
         model = new DefaultListModel();
-        for(int i=0; i<tracks.size(); i++){
-            model.addElement(tracks.get(i).getTitle() + " - " + tracks.get(i).getArtist() );
-        }   
+        for (int i = 0; i < tracks.size(); i++) {
+            if(tracks.get(i).isSelected()){
+                model.addElement("●  " + tracks.get(i).getTitle() + " - " + tracks.get(i).getArtist());
+            }
+            else{
+                model.addElement(tracks.get(i).getTitle() + " - " + tracks.get(i).getArtist());
+            }
+        }
         jList_Tracks.setModel(model);
         jList_Tracks.setSelectedIndex(0);
-        
-        jList_Tracks.setPreferredSize(new Dimension(350, tracks.size()*40));
-        
+
+        jList_Tracks.setPreferredSize(new Dimension(350, tracks.size() * 40));
+
         //handler list
         jList_Tracks.addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 jLabel_Title.setText(tracks.get(jList_Tracks.getSelectedIndex()).getTitle());
                 jLabel_Artist.setText(tracks.get(jList_Tracks.getSelectedIndex()).getArtist());
-                
+
+                autoFontsize.calcFontsize(jLabel_Title, defaultLabelFont);
+                autoFontsize.calcFontsize(jLabel_Artist, defaultLabelFont);
+
                 jButton_PlayReverse.setEnabled(true);
                 jButton_Show.setEnabled(false);
                 gamewindowpanel.setReset();
+
+                jList_Tracks.ensureIndexIsVisible(jList_Tracks.getSelectedIndex());
             }
         });
-        
+
+        //register hook for saving config on exit
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+            public void run() {
+                storeConfig();
+            }
+        }));
+
         //init game
         selectRandomNext();
         gamewindowpanel.setReset();
         jButton_Show.setEnabled(false);
-        
+
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -111,9 +131,11 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jLabel_Header.setFont(new java.awt.Font("Cantarell", 0, 60)); // NOI18N
         jLabel_Header.setText("Reverse Music");
 
-        jLabel_Title.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
+        jLabel_Title.setFont(defaultLabelFont);
         jLabel_Title.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Title.setText("Title");
+        jLabel_Title.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Title.setPreferredSize(new java.awt.Dimension(536, 60));
 
         jButton_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/edit-undo-symbolic-rtl.png"))); // NOI18N
         jButton_Next.setText("Next (Random)");
@@ -139,9 +161,11 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jList_Tracks.setPreferredSize(new java.awt.Dimension(350, 1000));
         jScrollPane1.setViewportView(jList_Tracks);
 
-        jLabel_Artist.setFont(new java.awt.Font("Cantarell", 0, 36)); // NOI18N
+        jLabel_Artist.setFont(defaultLabelFont);
         jLabel_Artist.setForeground(new java.awt.Color(3, 53, 103));
         jLabel_Artist.setText("Artist");
+        jLabel_Artist.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Artist.setPreferredSize(new java.awt.Dimension(536, 60));
 
         jButton_PlayReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/emblem-music-symbolic.symbolic.png"))); // NOI18N
         jButton_PlayReverse.setText("Play Reverse");
@@ -174,21 +198,21 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel_Artist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel_Header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_HeaderTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_HeaderArtist))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel_Header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton_PlayReverse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(72, 72, 72)
-                        .addComponent(jButton_Stop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton_Stop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_HeaderTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_HeaderArtist, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_Artist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -208,11 +232,11 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
                         .addGap(0, 0, 0)
                         .addComponent(jLabel_HeaderTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel_HeaderArtist)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_Artist, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel_Artist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_PlayReverse, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,16 +268,16 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jButton_Stop.setEnabled(true);
         jButton_Show.setEnabled(false);
         jButton_PlayReverse.setEnabled(false);
-        gamewindowpanel.setTitleArtist(tracks.get(jList_Tracks.getSelectedIndex()).getTitle(), 
-                                       tracks.get(jList_Tracks.getSelectedIndex()).getArtist());
+        gamewindowpanel.setTitleArtist(tracks.get(jList_Tracks.getSelectedIndex()).getTitle(),
+                tracks.get(jList_Tracks.getSelectedIndex()).getArtist());
         mainwindow.switchToTeam();
-        
+
         //mark Track as played
-        model.setElementAt(tracks.get(jList_Tracks.getSelectedIndex()).getTitle() + " - " 
-                + tracks.get(jList_Tracks.getSelectedIndex()).getArtist() + "  ●", jList_Tracks.getSelectedIndex());
+        model.setElementAt("●  " + tracks.get(jList_Tracks.getSelectedIndex()).getTitle() + " - "
+                + tracks.get(jList_Tracks.getSelectedIndex()).getArtist(), jList_Tracks.getSelectedIndex());
 
         //count number of played tracks
-        if(tracks.get(jList_Tracks.getSelectedIndex()).setSelected()){
+        if (tracks.get(jList_Tracks.getSelectedIndex()).setSelected()) {
             playcount++;
         }
     }//GEN-LAST:event_jButton_ShowActionPerformed
@@ -271,92 +295,127 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
         jButton_Stop.setEnabled(false);
     }//GEN-LAST:event_jButton_StopActionPerformed
 
-    
     //select random
-    private void selectRandomNext(){
-        
+    private void selectRandomNext() {
+
         //notify "all played"
-        if(playcount == tracks.size()){
+        if (playcount == tracks.size()) {
             jLabel_Title.setForeground(Color.ORANGE);
             jLabel_Artist.setForeground(Color.ORANGE);
         }
-        
+
         //select next random track
-        if(playcount < tracks.size()){
-            do{
+        if (playcount < tracks.size()) {
+            do {
                 Random rand = new Random();
                 int rnd = rand.nextInt(tracks.size());
                 jList_Tracks.setSelectedIndex(rnd);
                 jLabel_Title.setText(tracks.get(rnd).getTitle());
                 jLabel_Artist.setText(tracks.get(rnd).getArtist());
-            }while(tracks.get(jList_Tracks.getSelectedIndex()).isSelected());
+            } while (tracks.get(jList_Tracks.getSelectedIndex()).isSelected());
         }
     }
-    
+
     //play track
-    private void playTrackReverse(int index){
+    private void playTrackReverse(int index) {
         final String filename = tracks.get(index).getReversefile();
         final String directory = System.getProperty("user.dir");
-        try{
+        try {
             mainwindow.playSound(Paths.get(directory + "/ReverseMusic/" + filename).toUri().toURL());
-        }
-        catch (Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
-    
-    private void playTrackForward(int index){
+
+    private void playTrackForward(int index) {
         String filename = tracks.get(index).getForwardfile();
         final String directory = System.getProperty("user.dir");
-        try{
+        try {
             mainwindow.playSound(Paths.get(directory + "/ReverseMusic/" + filename).toUri().toURL());
-        }
-        catch (Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
-    
+
     //read files
-    private void getTracks() throws Exception{
-        
+    private void getTracks() throws Exception {
+
         //get current directory
         final String directory = System.getProperty("user.dir");
-        
-        try{
+
+        try {
             File folder = new File(directory + "/ReverseMusic/");
             File[] listOfFiles = folder.listFiles();
 
             //sort alphabetically to ensure correct order
             Arrays.sort(listOfFiles);
-            
-            for (int i = 0; i < listOfFiles.length-1; i+=2) {
-                
+
+            //restore config (if any)
+            ArrayList<String> config = new ArrayList();
+            if (!mainwindow.clearconfig) {
+                try{
+                    config = ConfigFile.read(configfile);
+                }
+                catch (Exception e){
+                    //nothing to do
+                }
+            }
+
+            for (int i = 0; i < listOfFiles.length - 1; i += 2) {
+
                 //parse artist/title
-                String tmp = listOfFiles[i].getName();               
+                String tmp = listOfFiles[i].getName();
                 String title = tmp.substring(0, tmp.indexOf('_'));
-                tmp = tmp.substring(tmp.indexOf('_')+1);
+                tmp = tmp.substring(tmp.indexOf('_') + 1);
                 String artist = tmp.substring(0, tmp.indexOf('_'));
-                
+
                 //parse filenames
                 String forwardfile = listOfFiles[i].getName();
-                String reversefile = listOfFiles[i+1].getName();
-                
+                String reversefile = listOfFiles[i + 1].getName();
+
                 //append tracklist
                 tracks.add(new Track(artist, title, forwardfile, reversefile));
+
+                //restore config
+                if (!config.isEmpty()) {
+                    for (int e = 0; e < config.size(); e++) {
+                        if (config.get(e).equals(tracks.get(tracks.size() - 1).getTitle() + " - " + tracks.get(tracks.size() - 1).getArtist())) {
+                            tracks.get(tracks.size() - 1).setSelected();
+                            playcount++;
+                            break;
+                        }
+                    }
+                }
+
             }
-            
-            if(tracks.isEmpty()){
+
+            if (tracks.isEmpty()) {
                 throw new Exception("No Tracks found!");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
-    
+
+    //save to config file
+    private void storeConfig() {
+
+        ArrayList<String> config = new ArrayList();
+        for (int i = 0; i < tracks.size(); i++) {
+            if (tracks.get(i).isSelected()) {
+                config.add(tracks.get(i).getTitle() + " - " + tracks.get(i).getArtist());
+            }
+        }
+        try {
+            ConfigFile.write(configfile, config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Class for single Track
-    private class Track{
-        
+    private class Track {
+
         private String artist;
         private String title;
         private String forwardfile;
@@ -409,16 +468,14 @@ public class GamePanelReverseMusic extends javax.swing.JPanel {
          * @param selected the selected to set
          */
         public boolean setSelected() {
-            if(this.selected){
+            if (this.selected) {
                 return false;
-            }
-            else{
+            } else {
                 this.selected = true;
                 return true;
             }
         }
-        
-       
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

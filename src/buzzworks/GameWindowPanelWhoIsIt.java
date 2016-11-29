@@ -5,6 +5,7 @@
  */
 package buzzworks;
 
+import java.awt.Font;
 import javax.swing.Icon;
 
 /**
@@ -13,6 +14,8 @@ import javax.swing.Icon;
  */
 public class GameWindowPanelWhoIsIt extends javax.swing.JPanel {
 
+    private final Font defaultLabelFont = new Font("Cantarell", 0, 60);
+    
     /**
      * Creates new form GameWindowPanelReverseMusic
      */
@@ -34,11 +37,13 @@ public class GameWindowPanelWhoIsIt extends javax.swing.JPanel {
 
         setBackground(java.awt.Color.white);
 
-        jLabel_Name.setFont(new java.awt.Font("Cantarell", 0, 60)); // NOI18N
+        jLabel_Name.setFont(defaultLabelFont);
         jLabel_Name.setForeground(new java.awt.Color(28, 74, 120));
         jLabel_Name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Name.setText("Name");
         jLabel_Name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel_Name.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Name.setPreferredSize(new java.awt.Dimension(750, 150));
 
         jLabel_Image.setBackground(java.awt.Color.white);
         jLabel_Image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -50,20 +55,21 @@ public class GameWindowPanelWhoIsIt extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel_Image, javax.swing.GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
-            .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 1260, Short.MAX_VALUE)
+            .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel_Image, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jLabel_Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel_Image, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addGap(33, 33, 33))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     public void setName(String name){
         jLabel_Name.setText(name);
+        autoFontsize.calcFontsize(jLabel_Name, defaultLabelFont);
     }
     
     public void setImage(Icon icon){
@@ -72,6 +78,7 @@ public class GameWindowPanelWhoIsIt extends javax.swing.JPanel {
     
     public void setReset(){
         jLabel_Name.setText("?");
+        autoFontsize.calcFontsize(jLabel_Name, defaultLabelFont);
         jLabel_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/who_is_it.png")));
     }
 

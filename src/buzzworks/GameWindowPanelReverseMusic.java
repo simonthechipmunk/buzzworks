@@ -5,6 +5,8 @@
  */
 package buzzworks;
 
+import java.awt.Font;
+
 
 /**
  *
@@ -12,6 +14,8 @@ package buzzworks;
  */
 public class GameWindowPanelReverseMusic extends javax.swing.JPanel {
 
+    private final Font defaultLabelFont = new Font("Cantarell", 0, 48);
+    
     /**
      * Creates new form GameWindowPanelReverseMusic
      */
@@ -39,17 +43,21 @@ public class GameWindowPanelReverseMusic extends javax.swing.JPanel {
         jLabel_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/reverse_music.png"))); // NOI18N
         jLabel_Image.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel_Title.setFont(new java.awt.Font("Cantarell", 0, 48)); // NOI18N
+        jLabel_Title.setFont(defaultLabelFont);
         jLabel_Title.setForeground(new java.awt.Color(28, 74, 120));
         jLabel_Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Title.setText("Title");
         jLabel_Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel_Title.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Title.setPreferredSize(new java.awt.Dimension(750, 60));
 
-        jLabel_Artist.setFont(new java.awt.Font("Cantarell", 0, 48)); // NOI18N
+        jLabel_Artist.setFont(defaultLabelFont);
         jLabel_Artist.setForeground(new java.awt.Color(28, 74, 120));
         jLabel_Artist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_Artist.setText("Artist");
         jLabel_Artist.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel_Artist.setMaximumSize(new java.awt.Dimension(0, 0));
+        jLabel_Artist.setPreferredSize(new java.awt.Dimension(750, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -62,11 +70,11 @@ public class GameWindowPanelReverseMusic extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addComponent(jLabel_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Artist, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addComponent(jLabel_Artist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(jLabel_Image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(47, 47, 47))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -74,11 +82,17 @@ public class GameWindowPanelReverseMusic extends javax.swing.JPanel {
     public void setTitleArtist(String title, String artist){
         jLabel_Title.setText(title);
         jLabel_Artist.setText(artist);
+        
+        autoFontsize.calcFontsize(jLabel_Title, defaultLabelFont);
+        autoFontsize.calcFontsize(jLabel_Artist, defaultLabelFont);
     }
     
     public void setReset(){
         jLabel_Title.setText(" ");
         jLabel_Artist.setText("?");
+        
+        autoFontsize.calcFontsize(jLabel_Title, defaultLabelFont);
+        autoFontsize.calcFontsize(jLabel_Artist, defaultLabelFont);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

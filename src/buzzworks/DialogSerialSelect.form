@@ -47,9 +47,12 @@
                           <Component id="jCheckBox_PointsWindow" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox_DebugMode" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox_GameTab" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                              <Component id="jCheckBox_Timer" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="53" pref="53" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jCheckBox_Timer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox_Config" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -71,11 +74,13 @@
               <Component id="jCheckBox_PointsWindow" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jCheckBox_Timer" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jCheckBox_GameTab" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jCheckBox_Config" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jCheckBox_DebugMode" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jProgressBar_Create" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="jLabel_Progress" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
@@ -153,6 +158,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_TimerActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBox_Config">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Discard Config Files (Fresh Start)"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_ConfigActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -29,6 +29,8 @@ public class mainWindow extends javax.swing.JFrame {
     private MediaPlayer mediaPlayer;
     private int buzzedteamindex = -1;
     private boolean gametab_present = false;
+    
+    public final boolean clearconfig;
 
     /**
      * Creates new form mainWindow
@@ -41,6 +43,9 @@ public class mainWindow extends javax.swing.JFrame {
         
         //set window title
         this.setTitle("Buzzworks - Controls");
+        
+        //config setting
+        clearconfig = this.checkboxes.get(3);
         
         //init window components
         initComponents();
@@ -63,11 +68,27 @@ public class mainWindow extends javax.swing.JFrame {
         for (int i = 0; i < teamlist.size(); i++) {
             teampanels.add(new TeamPanel(teamlist.get(i), this.serial, this.jTabbedPane4));
             jTabbedPane4.addTab(teampanels.get(i).team.getName(), teampanels.get(i));
+            
+            //add change listener for every team in teampanels
             teampanels.get(i).team.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e){
                         //action
                         updatePointList();
+                        
+                        //update global tag
+                        if (jLabel_TeamBuzzed.isVisible() && jTabbedPane4.getSelectedIndex() == buzzedteamindex){
+                            for(int i = 0; i<teampanels.size(); i++){
+                                    if(jTabbedPane4.getTitleAt(jTabbedPane4.getSelectedIndex()).equals(teampanels.get(i).team.getName())){                                           
+                                        //set global tag
+                                        jLabel_TeamBuzzed.setText("→ " + teampanels.get(i).team.getName());
+                                        jLabel_TeamBuzzed.setForeground(teampanels.get(i).team.getColor());
+                                        break;                               
+                                }                                
+                            }
+                        }
+
+                        
                     }
             });
         }
