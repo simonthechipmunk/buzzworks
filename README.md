@@ -119,7 +119,7 @@ RxTx (BuiltIn)
 
 ## Change log
 **Version 1.0 (14-11-2016)**
-* first public version#
+* first public version
 
 **Version 1.1 (20-11-2016)**
 * added TeamChart
