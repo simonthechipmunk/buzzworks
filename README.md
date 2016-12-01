@@ -4,13 +4,19 @@
 This Java Application is meant to run on a touchscreen to give the "Gamemaster" easy control over the participating teams.
 It controls the connected Hardware Buzzers and manages Teams (Their Points, Assigned Name, Teamcolor).
 
+
+## License
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation; either version 2 of the License, or (at your option)
 any later version.
- 
- 
- 
+
+Icons from the GNOME Project are licenced under the Creative Commons Attribution-Share Alike 3.0
+United States License. To view a copy of this licence, visit
+http://creativecommons.org/licenses/by-sa/3.0/
+When attributing the artwork, using "GNOME Project" is enough. 
+Please link to http://www.gnome.org where available.
+
 ## Features
 * Manage Teams (Name, Points, Color) through GUI
 * Manage Buzzers (Animation Mode, Lock, Colors) through GUI
@@ -92,6 +98,10 @@ ATTiny Hardware Support for Arduino IDE [http://highlowtech.org/?p=1695]
 RxTx (BuiltIn)
 
 
+**Icons**
+
+Icons are taken from the GNOME Project [http://www.gnome.org]
+(to be specific: the symbolic-icons [https://github.com/GNOME/gnome-icon-theme-symbolic])
 
 ## Missing features
 
