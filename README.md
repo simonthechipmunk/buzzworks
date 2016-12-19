@@ -50,7 +50,9 @@ A short description of the message structure is written down in Commands.md
 
 The Buzzers are fairly easy to make and quite universal as they feature 15 addressable WS2812b LEDs and 2 digital output pins
 for data transmission. Using those for software based I²C means the system becomes highly flexible (number of buzzers, remotely assigning teamcolors, setting animations, locking specific teams, ...).
-A detailed instruction Guide on how to make them will follow as soon as I get the time to do it ;) (link will be included here)
+A detailed instruction Guide on how to make them can be found on instructables.com:
+
+[http://www.instructables.com/id/Quiz-Game-Buzzers-Arduino-RGB-IC-/]
 
 **How to start the program and add music/pictures to the games**
 
