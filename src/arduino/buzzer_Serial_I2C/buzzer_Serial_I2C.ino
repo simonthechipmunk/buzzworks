@@ -8,7 +8,8 @@
  by Simon Junga (simonthechipmunk)
  */
 
-#include <Wire.h> 
+#include <avr/wdt.h>
+#include <Wire.h>
 
 
 //variables
@@ -51,8 +52,12 @@ void setup()
   
   //init I²C
   Wire.begin(80);                //join i2c bus with address #80
+  Wire.setWireTimeout(30000, false);   // set I2C timeout to 30ms
   //Wire.onRequest(wireRequest);   //register event for master request
   //Wire.onReceive(wireReceive);   //register event for receiving data
+
+  // enable watchdog timer
+  wdt_enable(WDTO_250MS);
 }
 
 
